@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class ConvertToRegularMesh : MonoBehaviour {
 
-    [ContextMenu("Convert to regular mesh")]
-    void Convert () {
-        SkinnedMeshRenderer skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
-        MeshRenderer meshRenderer = gameObject.AddComponent<MeshRenderer>();
-        MeshFilter meshFilter = gameObject.AddComponent<MeshFilter>();
-
-        meshFilter.sharedMesh = skinnedMeshRenderer.sharedMesh;
-        meshRenderer.sharedMaterials = skinnedMeshRenderer.sharedMaterials;
-
-        DestroyImmediate(skinnedMeshRenderer);
-        DestroyImmediate(this);
+    void Start() {
+        if (GetComponent<SkinnedMeshRenderer>()) {
+            SkinnedMeshRenderer skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
+            MeshFilter filter = gameObject.AddComponent<MeshFilter>();
+            MeshRenderer renderer = gameObject.AddComponent<MeshRenderer>();
+            filter.mesh = skinnedMeshRenderer.sharedMesh;
+            renderer.sharedMaterials = skinnedMeshRenderer.sharedMaterials;
+            DestroyImmediate(skinnedMeshRenderer);
+            DestroyImmediate(this);
+        }
     }
 
 }
